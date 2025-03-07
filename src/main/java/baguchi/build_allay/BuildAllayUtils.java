@@ -83,7 +83,7 @@ public class BuildAllayUtils {
                     needItemStack.forEach(itemStack -> {
                         player.getInventory().add(itemStack.copy());
                     });
-                    player.displayClientMessage(Component.translatable("build_allay.missing_item", needItem.get().getDescription(), needCount), true);
+                    player.displayClientMessage(Component.translatable("build_allay.missing_item", needItem.get().getDescription().getString(), needCount.get()), true);
                     player.playSound(SoundEvents.THORNS_HIT);
                     return false;
                 }

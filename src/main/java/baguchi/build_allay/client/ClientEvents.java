@@ -7,27 +7,26 @@ import com.simibubi.create.AllItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = BuildAllayCore.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = BuildAllayCore.MODID, value = Dist.CLIENT)
 public class ClientEvents {
     public static int pressSummonTick;
     @SubscribeEvent
-    public static void onPlayerPostTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
+    public static void onPlayerPostTick(PlayerTickEvent.Post event) {
             if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.getMainHandItem().is(AllItems.SCHEMATIC.get())) {
 
                 if (ModKeyMappings.KEY_SUMMON_BUILDER_ALLAY.isDown()) {
                     if (pressSummonTick <= 0) {
                         pressSummonTick = 20;
-                        BuildAllayCore.CHANNEL.send(PacketDistributor.SERVER.noArg(), new SummonBuildAllayPacket());
+                        PacketDistributor.sendToServer(new SummonBuildAllayPacket());
                     }
                 }
             }
@@ -35,7 +34,7 @@ public class ClientEvents {
             if (pressSummonTick > 0) {
                 --pressSummonTick;
             }
-        }
+
     }
 
     @SubscribeEvent

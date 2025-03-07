@@ -5,6 +5,7 @@ import baguchi.champaign.registry.ModMemorys;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllDataComponents;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.kinetics.belt.BeltBlock;
 import com.simibubi.create.content.kinetics.belt.BeltPart;
@@ -137,7 +138,7 @@ public class BuildAllay extends AbstractWorkerAllay {
     }
 
     public void initializePrinter(ItemStack blueprint) {
-        if (!blueprint.hasTag()) {
+        if (!blueprint.has(AllDataComponents.SCHEMATIC_ANCHOR)) {
             returnToPlayer();
             state = SchematicannonBlockEntity.State.STOPPED;
             statusMsg = "schematicInvalid";
@@ -145,8 +146,7 @@ public class BuildAllay extends AbstractWorkerAllay {
             return;
         }
 
-        if (!blueprint.getTag()
-                .getBoolean("Deployed")) {
+        if (!blueprint.getOrDefault(AllDataComponents.SCHEMATIC_DEPLOYED, false)) {
             returnToPlayer();
             state = SchematicannonBlockEntity.State.STOPPED;
             statusMsg = "schematicNotPlaced";
@@ -215,7 +215,7 @@ public class BuildAllay extends AbstractWorkerAllay {
     }
 
     public void finishedPrinting() {
-        this.inventory.addItem(new ItemStack(AllItems.EMPTY_SCHEMATIC, 1));
+        this.inventory.addItem(new ItemStack(AllItems.EMPTY_SCHEMATIC.get(), 1));
         state = SchematicannonBlockEntity.State.STOPPED;
         statusMsg = "finished";
         resetPrinter();

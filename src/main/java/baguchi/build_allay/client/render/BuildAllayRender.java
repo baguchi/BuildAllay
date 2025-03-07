@@ -10,7 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
 public class BuildAllayRender<T extends baguchi.champaign.entity.AbstractWorkerAllay> extends MobRenderer<T, WorkerAllayModel<T>> {
-    private static final ResourceLocation ALLAY_TEXTURE = new ResourceLocation(BuildAllayCore.MODID, "textures/entity/allay.png");
+    private static final ResourceLocation ALLAY_TEXTURE = ResourceLocation.fromNamespaceAndPath(BuildAllayCore.MODID, "textures/entity/allay.png");
 
     public BuildAllayRender(EntityRendererProvider.Context p_234551_) {
         super(p_234551_, new WorkerAllayModel<>(p_234551_.bakeLayer(ModelLayers.ALLAY)), 0.4F);

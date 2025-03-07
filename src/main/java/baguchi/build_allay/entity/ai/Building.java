@@ -99,6 +99,7 @@ public class Building extends Behavior<BuildAllay> {
                                 return;
                             }
                             currentBlockPos = null;
+
                             mob.sendUpdate = true;
                         }
                     }

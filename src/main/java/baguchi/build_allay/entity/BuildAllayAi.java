@@ -1,7 +1,7 @@
 package baguchi.build_allay.entity;
 
-import baguchi.champaign.entity.ai.BackToPlayer;
 import baguchi.build_allay.entity.ai.Building;
+import baguchi.champaign.entity.ai.BackToPlayer;
 import baguchi.champaign.registry.ModMemorys;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -47,7 +47,7 @@ public class BuildAllayAi {
     private static void initCoreActivity(Brain<BuildAllay> p_218426_) {
         p_218426_.addActivity(Activity.CORE, 0, ImmutableList.of(
                 new Swim(0.8F),
-                new AnimalPanic(2.5F),
+                new AnimalPanic<>(2.5F),
                 new LookAtTargetSink(45, 90),
                 new MoveToTargetSink(),
                 new CountDownCooldownTicks(MemoryModuleType.LIKED_NOTEBLOCK_COOLDOWN_TICKS),

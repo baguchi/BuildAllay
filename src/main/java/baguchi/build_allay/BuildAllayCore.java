@@ -2,21 +2,12 @@ package baguchi.build_allay;
 
 
 import baguchi.build_allay.packet.SummonBuildAllayPacket;
-import baguchi.champaign.attachment.ChampaignAttachment;
-import baguchi.champaign.attachment.OwnerAttachment;
-import baguchi.champaign.music.MusicSummon;
-import baguchi.champaign.packet.*;
 import baguchi.build_allay.registry.ModEntities;
-import baguchi.champaign.registry.ModItems;
 import baguchi.build_allay.registry.ModMemorys;
-import baguchi.champaign.registry.ModMusicSummons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,7 +17,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
-import net.minecraftforge.registries.DataPackRegistryEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.Locale;
@@ -44,11 +34,6 @@ public class BuildAllayCore
             .serverAcceptedVersions(NETWORK_PROTOCOL::equals)
             .simpleChannel();
 
-    public static final Capability<ChampaignAttachment> CHAMPAIGN_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
-    });
-
-    public static final Capability<OwnerAttachment> OWNER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
-    });
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public BuildAllayCore()

@@ -93,7 +93,7 @@ public class Building extends Behavior<BuildAllay> {
                         mob.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                         // Update Target
                         if (mob.missingItem == null) {
-                            if (!mob.printer.advanceCurrentPos()) {
+                            if (!mob.printer.advanceCurrentPos() && !workOver) {
                                 mob.finishedPrinting();
                                 workOver = true;
                                 return;

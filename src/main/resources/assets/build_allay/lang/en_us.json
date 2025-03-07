@@ -1,4 +1,5 @@
 {
   "key.build_allay.summon_build_allay": "Summon Build Allay",
-  "item.build_allay.tooltip.description": "Summon Build Allay"
+  "item.build_allay.tooltip.description": "Summon Build Allay",
+  "build_allay.missing_item": "%s %s Missing"
 }

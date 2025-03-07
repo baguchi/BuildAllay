@@ -3,14 +3,12 @@ package baguchi.build_allay.entity.ai;
 import baguchi.build_allay.entity.BuildAllay;
 import baguchi.champaign.registry.ModMemorys;
 import com.google.common.collect.ImmutableMap;
-import com.simibubi.create.content.schematics.cannon.LaunchedItem;
 import com.simibubi.create.foundation.utility.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -21,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -89,6 +86,8 @@ public class Building extends Behavior<BuildAllay> {
                         mob.playSound(blockState.getSoundType().getPlaceSound());
                             }, (target, entity) -> {
                             // Launch entity
+                            entity.setPos(target.getCenter());
+                            level.addFreshEntity(entity);
                             mob.statusMsg = "placing";
                         });
                         mob.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);

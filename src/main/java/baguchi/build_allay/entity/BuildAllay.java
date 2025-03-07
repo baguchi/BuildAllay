@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.kinetics.belt.BeltBlock;
 import com.simibubi.create.content.kinetics.belt.BeltPart;
 import com.simibubi.create.content.schematics.SchematicPrinter;
@@ -19,12 +18,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -35,18 +33,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.simibubi.create.content.schematics.cannon.SchematicannonBlockEntity.MAX_ANCHOR_DISTANCE;
-import static net.minecraft.commands.arguments.coordinates.BlockPosArgument.getBlockPos;
 
 public class BuildAllay extends AbstractWorkerAllay {
     public static final ImmutableList<SensorType<? extends Sensor<? super BuildAllay>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.NEAREST_ITEMS);
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.PATH, MemoryModuleType.LOOK_TARGET, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.HURT_BY, MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM, MemoryModuleType.LIKED_PLAYER, MemoryModuleType.IS_PANICKING, ModMemorys.WORK_POS.get());
 
-    private final SimpleContainer inventory = new SimpleContainer(12);
+    private final SimpleContainer inventory = new SimpleContainer(24);
+
 
     public ItemStack missingItem;
     public boolean sendUpdate;
@@ -305,8 +304,16 @@ public class BuildAllay extends AbstractWorkerAllay {
     }
 
     @Override
+    public void move(MoverType p_33997_, Vec3 p_33998_) {
+        super.move(p_33997_, p_33998_);
+        this.checkInsideBlocks();
+    }
+
+    @Override
     public void tick() {
+        this.noPhysics = true;
         super.tick();
+        this.noPhysics = false;
         // Get item requirement
         if(printer.isLoaded() && this.getMainHandItem().isEmpty()) {
             ItemRequirement requirement = printer.getCurrentRequirement();
